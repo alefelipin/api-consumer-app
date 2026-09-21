@@ -1,16 +1,68 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="./styles.css">
 
-  <title>Consum de dades d'API amb Fetch i Axios</title>
+  <title>API with Fetch and Axios</title>
 </head>
 <body>
 
-  <h1>Tasca S3.01 | Consum de dades d'API amb Fetch i Axios</h1>
+  <div class="container">
+
+    <header>
+      <h1>Fetch and Axios</h1>
+      <label for="apiSelector">Select an option:</label>
+      <select id="apiSelector">
+        <option value="" disabled selected hidden></option>
+        <option value="fetch">Use Fetch</option>
+        <option value="axios">Use Axios</option>
+      </select>
+
+      <input
+        id="searchInput"
+        tyep="input"
+        class="input-header"
+        placeholder="Search for..."
+      >
+
+      <button
+        id="fetchButton"
+        class="button-header"
+      >
+        Fetch Data
+      </button>
+    </header>
+
+    <main>
+
+      <div
+        id="loadingElement"
+        class="hidden"
+      >Loading...
+      </div>
+
+      <div
+        id="errorElement"
+        class="hidden"
+      >
+      </div>
+
+      <section
+        id="resultsContainer">Results:
+      </section>
+
+      <nav
+      id="paginationContainer"
+      class="pagination"
+      aria-label="pagination"
+      >
+      </nav>
+
+    </main>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="./main.js"></script>
