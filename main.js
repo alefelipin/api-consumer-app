@@ -65,6 +65,7 @@ async function fetchData() {
 // Funció per a la visualització dels resultats i la paginació (a implementar)
 function displayResults(items, totalItems) {
     // ... (Implementa la lògica per mostrar cada "ítem" com una targeta i per cridar setupPagination)
+  resultsContainer.textContent = "";
 }
 
 
