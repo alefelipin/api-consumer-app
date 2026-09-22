@@ -13,7 +13,13 @@ const errorElement = getHTML("errorElement");
 const resultsContainer = getHTML("resultsContainer");
 const paginationContainer = getHTML("paginationContainer");
 
-fetchButton.addEventListener("click", fetchData);
+fetchButton.addEventListener("click", () => {
+
+  current = 1;
+
+  fetchData();
+
+});
 
 function showLoading() {
   loadingElement.classList.remove("hidden");
@@ -33,6 +39,11 @@ function hideError() {
 }
 
 async function fetchData() {
+
+  if (!apiSelector.value) {
+    showError("Please select Fetch or Axios");
+    return;
+  }
 
   const searchTerm = searchInput.value.trim();
   const useAxios = apiSelector.value === "axios";
@@ -58,6 +69,8 @@ async function fetchData() {
 
 function displayResults(items, totalItems) {
 
+  resultsContainer.textContent = "";
+
   if(items.length === 0) {
     resultsContainer.textContent = "No results found";
     return;
@@ -69,10 +82,10 @@ function displayResults(items, totalItems) {
     card.classList.add("card");
     card.innerHTML = 
     `
-      <p>${`userId: ${element.userId}`}</p>
-      <p>${element.id}</p>
-      <p>${element.title}</p>
-      <p>${element.body}</p>
+      <p>User Id: ${element.userId}</p>
+      <p>ID: ${element.id}</p>
+      <p>Title: ${element.title}</p>
+      <p>Body: ${element.body}</p>
     `;
   
     resultsContainer.appendChild(card);
@@ -107,8 +120,6 @@ function setupPagination(totalItems) {
 
 async function fetchDataWithFetch(searchTerm) {
 
-  hideLoading()
-
   const url = `${API_URL}?_page=${current}&_limit=${itemsPerPage}&q=${searchTerm}`;
   const response = await fetch(url);
 
@@ -124,10 +135,15 @@ async function fetchDataWithFetch(searchTerm) {
                                                                                  
 async function fetchDataWithAxios(searchTerm) {
 
-  hideLoading()
-
   try {
-    const response = await axios.get(`${API_URL}?_page=${current}&_limit=${itemsPerPage}&q=${searchTerm}`);
+    const response = await axios.get(API_URL, {
+      params: {
+        _page: current,
+        _limit: itemsPerPage,
+        q: searchTerm
+      }
+    });
+    
     const items = response.data;
     const totalItems = Number(response.headers["x-total-count"]);
     displayResults(items, totalItems);
