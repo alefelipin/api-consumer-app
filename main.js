@@ -69,7 +69,7 @@ function displayResults(items, totalItems) {
     card.classList.add("card");
     card.innerHTML = 
     `
-      <p>${element.userId}</p>
+      <p>${`userId: ${element.userId}`}</p>
       <p>${element.id}</p>
       <p>${element.title}</p>
       <p>${element.body}</p>
@@ -107,6 +107,8 @@ function setupPagination(totalItems) {
 
 async function fetchDataWithFetch(searchTerm) {
 
+  hideLoading()
+
   const url = `${API_URL}?_page=${current}&_limit=${itemsPerPage}&q=${searchTerm}`;
   const response = await fetch(url);
 
@@ -121,6 +123,8 @@ async function fetchDataWithFetch(searchTerm) {
 }
                                                                                  
 async function fetchDataWithAxios(searchTerm) {
+
+  hideLoading()
 
   try {
     const response = await axios.get(`${API_URL}?_page=${current}&_limit=${itemsPerPage}&q=${searchTerm}`);
