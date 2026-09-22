@@ -96,6 +96,29 @@ function displayResults(items, totalItems) {
 
 function setupPagination(totalItems) {
     // ... (Implementa la lògica per crear els botons de paginació)
+  paginationContainer.textContent = "";
+
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  for (let i = 1; i <= totalPages; i++) {
+
+    const button = document.createElement("button");
+
+    button.classList.add("button");
+    button.textContent = i;
+
+    if (i === current) {
+      button.disabled = true;
+    }
+
+    button.addEventListener("click", () => {
+      current = i;
+      fetchData();
+    });
+
+    paginationContainer.appendChild(button);
+
+  }
 }
 
 
@@ -117,9 +140,6 @@ async function fetchDataWithFetch(searchTerm) {
   const items = await response.json();
 
   const totalItems = Number(response.headers.get("X-Total-Count"));
-
-
-
 }
 
 
@@ -127,5 +147,4 @@ async function fetchDataWithFetch(searchTerm) {
 // Funció per obtenir dades amb Axios                                                                                   
 async function fetchDataWithAxios(searchTerm) {
     // ... (Implementa la petició amb Axios)
-
 }
