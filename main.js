@@ -15,29 +15,23 @@ const paginationContainer = getHTML("paginationContainer");
 
 fetchButton.addEventListener("click", fetchData);
 
-// Funció per mostrar l'indicador de càrrega
 function showLoading() {
   loadingElement.classList.remove("hidden");
 }
 
-// Funció per amagar l'indicador de càrrega
 function hideLoading() {
   loadingElement.classList.add("hidden");
 }
 
-// Funció per mostrar missatges d'error
 function showError(message) {
   errorElement.textContent = message;
   errorElement.classList.remove("hidden");
 }
 
-// Funció per amagar missatges d'error
 function hideError() {
-    errorElement.classList.add("hidden");
+  errorElement.classList.add("hidden");
 }
 
-
-// Funció principal per obtenir dades (a implementar)
 async function fetchData() {
 
   const searchTerm = searchInput.value.trim();
@@ -47,6 +41,7 @@ async function fetchData() {
   hideError();
   resultsContainer.innerHTML = "";
   paginationContainer.innerHTML = "";
+
   try {
     if (useAxios) {
       await fetchDataWithAxios(searchTerm);
@@ -61,10 +56,7 @@ async function fetchData() {
 }
 
 
-// Funció per a la visualització dels resultats i la paginació (a implementar)
 function displayResults(items, totalItems) {
-    // ... (Implementa la lògica per mostrar cada "ítem" com una targeta i per cridar setupPagination)
-  resultsContainer.textContent = "";
 
   if(items.length === 0) {
     resultsContainer.textContent = "No results found";
@@ -74,9 +66,7 @@ function displayResults(items, totalItems) {
   items.forEach((element) => {
 
     const card = document.createElement("div");
-
     card.classList.add("card");
-
     card.innerHTML = 
     `
       <p>${element.userId}</p>
@@ -86,24 +76,19 @@ function displayResults(items, totalItems) {
     `;
   
     resultsContainer.appendChild(card);
-
   });
 
   setupPagination(totalItems);
-
 }
 
-
 function setupPagination(totalItems) {
-    // ... (Implementa la lògica per crear els botons de paginació)
+  
   paginationContainer.textContent = "";
-
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   for (let i = 1; i <= totalPages; i++) {
 
     const button = document.createElement("button");
-
     button.classList.add("button");
     button.textContent = i;
 
@@ -117,34 +102,31 @@ function setupPagination(totalItems) {
     });
 
     paginationContainer.appendChild(button);
-
   }
 }
 
-
-
-// Funció per obtenir dades amb Fetch
 async function fetchDataWithFetch(searchTerm) {
-    // ... (Implementa la petició amb Fetch API)
 
   const url = `${API_URL}?_page=${current}&_limit${itemsPerPage}&q=${searchTerm}`;
-
   const response = await fetch(url);
 
   if (!response.ok) {
-
     throw new Error(`HTTP error: ${response.status}`);
-
   }
 
   const items = await response.json();
-
   const totalItems = Number(response.headers.get("X-Total-Count"));
+
+  displayResults(items, totalItems);
 }
-
-
-
-// Funció per obtenir dades amb Axios                                                                                   
+                                                                                 
 async function fetchDataWithAxios(searchTerm) {
-    // ... (Implementa la petició amb Axios)
+    
+ const response = await axios.get(`${API_URL}?_page=${current}&_limit${itemsPerPage}&q=${searchTerm}`)
+
+ const items = response.items;
+
+ const totalItems = Number(response.headers.get("X-Total-Count"));
+
+ displayResults(items, totalItems);
 }
