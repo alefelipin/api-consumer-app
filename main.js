@@ -61,13 +61,37 @@ async function fetchData() {
 }
 
 
-
 // Funció per a la visualització dels resultats i la paginació (a implementar)
 function displayResults(items, totalItems) {
     // ... (Implementa la lògica per mostrar cada "ítem" com una targeta i per cridar setupPagination)
   resultsContainer.textContent = "";
-}
 
+  if(items.length === 0) {
+    resultsContainer.textContent = "No results found";
+    return;
+  }
+
+  items.forEach((element) => {
+
+    const card = document.createElement("div");
+
+    card.classList.add("card");
+
+    card.innerHTML = 
+    `
+      <p>${element.userId}</p>
+      <p>${element.id}</p>
+      <p>${element.title}</p>
+      <p>${element.body}</p>
+    `;
+  
+    resultsContainer.appendChild(card);
+
+  });
+
+  setupPagination(totalItems);
+
+}
 
 
 function setupPagination(totalItems) {
