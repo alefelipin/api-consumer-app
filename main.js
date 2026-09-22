@@ -107,7 +107,7 @@ function setupPagination(totalItems) {
 
 async function fetchDataWithFetch(searchTerm) {
 
-  const url = `${API_URL}?_page=${current}&_limit${itemsPerPage}&q=${searchTerm}`;
+  const url = `${API_URL}?_page=${current}&_limit=${itemsPerPage}&q=${searchTerm}`;
   const response = await fetch(url);
 
   if (!response.ok) {
@@ -121,12 +121,19 @@ async function fetchDataWithFetch(searchTerm) {
 }
                                                                                  
 async function fetchDataWithAxios(searchTerm) {
-    
- const response = await axios.get(`${API_URL}?_page=${current}&_limit${itemsPerPage}&q=${searchTerm}`)
 
- const items = response.items;
+  try {
+    const response = await axios.get(`${API_URL}?_page=${current}&_limit=${itemsPerPage}&q=${searchTerm}`);
+    const items = response.data;
+    const totalItems = Number(response.headers["x-total-count"]);
+    displayResults(items, totalItems);
+  
+  } catch (error) {
 
- const totalItems = Number(response.headers.get("X-Total-Count"));
-
- displayResults(items, totalItems);
+    if (error.response) {
+      throw new Error(`HTTP error: ${error.response.status}`);
+    } else {
+      throw new Error(error.message);
+    } 
+  }
 }
