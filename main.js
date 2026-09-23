@@ -82,10 +82,10 @@ function displayResults(items, totalItems) {
     card.classList.add("card");
     card.innerHTML = 
     `
-      <p>User Id: ${element.userId}</p>
+      <p>User ID: ${element.userId}</p>
       <p>ID: ${element.id}</p>
-      <p>Title: ${element.title}</p>
-      <p>Body: ${element.body}</p>
+      <h2>${element.title}</h2>
+      <p>${element.body}</p>
     `;
   
     resultsContainer.appendChild(card);
@@ -143,7 +143,7 @@ async function fetchDataWithAxios(searchTerm) {
         q: searchTerm
       }
     });
-    
+
     const items = response.data;
     const totalItems = Number(response.headers["x-total-count"]);
     displayResults(items, totalItems);

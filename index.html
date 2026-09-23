@@ -15,8 +15,8 @@
     <header>
       <h1>Fetch and Axios</h1>
       <label for="apiSelector">Select an option:</label>
-      <select id="apiSelector">
-        <option value="" disabled selected hidden></option>
+      <select id="apiSelector" class="header-select">
+        <option value="" disabled selected hidden>Select Fetch or Axios</option>
         <option value="fetch">Use Fetch</option>
         <option value="axios">Use Axios</option>
       </select>
@@ -24,13 +24,13 @@
       <input
         id="searchInput"
         type="text"
-        class="input-header"
+        class="header-input"
         placeholder="Search for..."
       >
 
       <button
         id="fetchButton"
-        class="button-header"
+        class="header-button"
       >
         Fetch Data
       </button>
