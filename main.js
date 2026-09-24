@@ -38,6 +38,14 @@ function hideError() {
   errorElement.classList.add("hidden");
 }
 
+function cleanSelect() {
+  apiSelector.value = "";
+}
+
+function cleanInput() {
+  searchInput.value = "";
+}
+
 async function fetchData() {
 
   if (!apiSelector.value) {
@@ -46,6 +54,12 @@ async function fetchData() {
   }
 
   const searchTerm = searchInput.value.trim();
+
+  if (!searchInput.value) {
+    showError("Please enter a value");
+    return;
+  }
+
   const useAxios = apiSelector.value === "axios";
   
   showLoading();
@@ -65,7 +79,6 @@ async function fetchData() {
     hideLoading();
   }
 }
-
 
 function displayResults(items, totalItems) {
 
@@ -120,7 +133,7 @@ function setupPagination(totalItems) {
 
 async function fetchDataWithFetch(searchTerm) {
 
-  const url = `${API_URL}?_page=${current}&_limit=${itemsPerPage}&q=${searchTerm}`;
+  const url = `${API_URL}?_page=${current}&_limit=${itemsPerPage}&q=${encodeURIComponent(searchTerm)}`;
   const response = await fetch(url);
 
   if (!response.ok) {
